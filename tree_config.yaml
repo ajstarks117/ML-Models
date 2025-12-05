@@ -1,0 +1,8 @@
+# Paths to your converted data
+path: yolo_dataset  # dataset root dir (relative to where you run training)
+train: train/images 
+val: valid/images   
+
+# Classes
+names:
+  0: tree

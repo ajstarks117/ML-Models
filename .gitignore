@@ -40,3 +40,6 @@ outputs/
 # Flask/SQLite
 instance/
 *.sqlite3
+
+yolo_dataset/
+species_dataset/
