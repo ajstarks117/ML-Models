@@ -1,8 +1,18 @@
-torch>=2.2.0
-torchvision>=0.17.0
-opencv-python>=4.8.0
-numpy>=1.24.0
-Pillow>=10.0.0
-tqdm>=4.66.0
-pyyaml>=6.0.0
+# Core Web Framework
 Flask>=3.0.0
+
+# AI & Computer Vision
+ultralytics>=8.0.0   # Contains YOLOv8
+torch>=2.0.0         # Deep Learning Engine (Usually installed by ultralytics, but good to be explicit)
+torchvision>=0.15.0  
+opencv-python>=4.8.0 # For image plotting and encoding
+
+# Data Handling
+numpy>=1.24.0
+Pillow>=10.0.0       # Image loading
+tqdm>=4.66.0         # Progress bars for training scripts
+pandas>=2.0.0        # Useful for data manipulation
+
+# Utilities
+pyyaml>=6.0.0        # For reading config.yaml files
+requests>=2.31.0     # For making HTTP requests (if needed)
