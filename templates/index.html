@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>EcoScope</title>
+    <link rel="shortcut icon" href="{{url_for('static', filename='imgs/Ecoscope.png')}}" type="image/x-icon">k
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+
+    
+    <script src='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js'></script>
+    <link href='https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css' rel='stylesheet' />
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.min.js"></script>
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v5.0.0/mapbox-gl-geocoder.css" type="text/css">
+
+    <link rel="stylesheet" href="{{url_for('static', filename='css/styles.css')}}">
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="brand"><img src="{{url_for('static', filename='imgs/Ecoscope.png')}}" alt="logo">EcoScope</div>
+        <button class="nav-btn active" onclick="switchMode('aerial')" id="btn-aerial"><i class="bi bi-layers-fill"></i> Aerial Surveyor</button>
+        <button class="nav-btn" onclick="switchMode('species')" id="btn-species"><i class="bi bi-camera-fill"></i> Species ID</button>
+    </aside>
+    <main class="main-content">
+        <div id="map"></div>
+        <div class="tools-panel" id="mainPanel">
+            <div class="panel-header">
+                <div class="panel-title" id="panelTitle">🛰️ Aerial Tree Counting</div>
+                <button class="btn-icon" onclick="togglePanel()"><i class="bi bi-dash-lg" id="toggleIcon"></i></button>
+            </div>
+            <div class="panel-body">
+                <div class="slider-container">
+                    <div class="slider-label"><span>Confidence Threshold</span><span id="confVal">25%</span></div>
+                    <input type="range" id="confSlider" min="1" max="100" value="25" oninput="document.getElementById('confVal').innerText = this.value + '%'">
+                </div>
+
+                <div id="view-aerial">
+                    <p class="text-muted small mb-3">Screenshot a forest area from the map and upload it here.</p>
+                    <div class="upload-box" onclick="document.getElementById('aerialFile').click()">
+                        <i class="bi bi-cloud-arrow-up" style="font-size: 2rem; color: #6b7280;"></i>
+                        <p class="mb-0 mt-2 small text-muted">Click to Upload</p>
+                        <input type="file" id="aerialFile" hidden accept="image/*">
+                    </div>
+                    <div class="loader" id="aerialLoader"></div>
+                    <div class="result-card" id="aerialResult">
+                        <img id="aerialImg" class="result-img" src="">
+                        <div class="result-stats">
+                            <div>
+                                <div class="small text-muted">Trees Found</div>
+                                <div class="badge-highlight" id="countVal">0</div>
+                            </div>
+                        </div>
+                        <div class="p-2 border-top border-secondary">
+                            <button class="btn-feedback" onclick="reportIssue('aerial')"><i class="bi bi-flag"></i> Report Incorrect Count</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="view-species" style="display:none;">
+                    <p class="text-muted small mb-3">Upload a tree photo to identify species.</p>
+                    <div class="upload-box" onclick="document.getElementById('speciesFile').click()">
+                        <i class="bi bi-camera" style="font-size: 2rem; color: #6b7280;"></i>
+                        <p class="mb-0 mt-2 small text-muted">Upload Photo</p>
+                        <input type="file" id="speciesFile" hidden accept="image/*">
+                    </div>
+                    <div class="loader" id="speciesLoader"></div>
+                    <div class="result-card" id="speciesResult">
+                        <img id="speciesImg" class="result-img" src="">
+                        <div class="result-stats">
+                            <div>
+                                <div class="badge-highlight" id="speciesName">-</div>
+                                <div class="small text-muted">Confidence: <span id="speciesConf">-</span></div>
+                            </div>
+                        </div>
+                        <div class="p-2 border-top border-secondary">
+                            <button class="btn-feedback" onclick="reportIssue('species')"><i class="bi bi-flag"></i> Report Wrong Species</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<script src="{{url_for('static', filename='js/script.js')}}"></script>
+</body>
+</html>
